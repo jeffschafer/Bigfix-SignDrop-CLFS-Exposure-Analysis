@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BES xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BES.xsd">
+  <Analysis>
+    <Title>SignDrop - CLFS Authentication Exposure V1.0</Title>
+    <Description><![CDATA[<div><h2>SignDrop CLFS authentication exposure</h2>
+<p>Read-only assessment of the published SignDrop configuration condition.
+This Analysis does not run an exploit, scan files, change settings or remediate systems.</p>
+<p><b>Vulnerable:</b> True when the CLFS authentication Mode is a valid REG_DWORD
+equal to 0 (enforced) or 1 (learning). False when Mode is 2 (disabled by an
+administrator) or 3 (disabled automatically). The second property reports the
+same numeric Mode. Missing, unreadable, wrong-type or out-of-range values remain
+unavailable/errors and must not be interpreted as False.</p>
+<p>This is configuration exposure according to published research, not confirmed
+exploitability or evidence of compromise. False does not establish overall CLFS
+security. Do not disable CLFS authentication to make this result False: doing so
+removes protection against malicious log files. Both properties evaluate every
+15 minutes; reporting and offline-system delays still apply.</p>
+<p>Source: <a href="https://github.com/MSNightmare/SignDrop/tree/87a33cd4abc90b158e13220741eca2a54b44eb74">SignDrop research, pinned November 10, 2026 revision</a>.
+<a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/clfs-authentication">Microsoft CLFS authentication documentation</a>.</p></div>]]></Description>
+    <Relevance>windows of operating system and ((name of operating system starts with "Win11" and version of operating system >= version "10.0.26200") or (name of operating system starts with "Win2025" and version of operating system >= version "10.0.26100"))</Relevance>
+    <Category>Security Configuration</Category>
+    <Property Name="SignDrop::Vulnerable" ID="1" EvaluationPeriod="PT15M"><![CDATA[(it = 0 or it = 1) of (if not exists values "Mode" of keys "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CLFS\Authentication" of native registry then error "CLFS authentication Mode is unavailable or not present; exposure unknown" else (if (type of it as string) != "REG_DWORD" then error "CLFS authentication Mode is not REG_DWORD; exposure unknown" else (if it < 0 or it > 3 then error "CLFS authentication Mode is outside 0-3; exposure unknown" else it) of (it as integer)) of value "Mode" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CLFS\Authentication" of native registry)]]></Property>
+    <Property Name="SignDrop::CLFS Authentication Mode" ID="2" EvaluationPeriod="PT15M"><![CDATA[if not exists values "Mode" of keys "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CLFS\Authentication" of native registry then error "CLFS authentication Mode is unavailable or not present; exposure unknown" else (if (type of it as string) != "REG_DWORD" then error "CLFS authentication Mode is not REG_DWORD; exposure unknown" else (if it < 0 or it > 3 then error "CLFS authentication Mode is outside 0-3; exposure unknown" else it) of (it as integer)) of value "Mode" of key "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CLFS\Authentication" of native registry]]></Property>
+  </Analysis>
+</BES>
