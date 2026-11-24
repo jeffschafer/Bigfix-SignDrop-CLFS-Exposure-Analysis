@@ -4,6 +4,11 @@ A read-only Analysis that checks whether Windows has the CLFS authentication
 setting targeted by the published SignDrop exploit. It reports exactly two
 properties: **Vulnerable** and **CLFS Authentication Mode**.
 
+<a href="https://buymeacoffee.com/jeffschafer">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png"
+       alt="Buy Me a Coffee" width="217" height="60">
+</a>
+
 ## What makes a system vulnerable?
 
 CLFS is a Windows logging component. Its authentication feature checks that log
